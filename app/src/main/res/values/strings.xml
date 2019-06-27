@@ -3,4 +3,8 @@
     <string name="empty_values" />
     <string name="Pay">Оплатить</string>
     <string name="buttonAdd">Добавить</string>
+    <string name="connected">Подключить</string>
+    <string name="disconnected">Отключение</string>
+    <string name="service_not_connected">Нет соединения</string>
+    <string name="cash">НАЛИЧНЫМИ</string>
 </resources>

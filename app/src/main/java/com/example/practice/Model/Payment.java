@@ -10,6 +10,9 @@ public class Payment {
 
     private String Pay;
 
+    public Payment(int i, String s, String s1) {
+    }
+
     public int getId(){
 
         return id;
