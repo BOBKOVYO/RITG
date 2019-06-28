@@ -45,9 +45,7 @@ import java.util.List;
             final PaymentListPresenter presenter=new PaymentListPresenter(holder);
             final Payment payment = mpaymentList.get(position);
             ((TextView)holder.view.findViewById(R.id.editTextName)).setText(payment.getName());
-            (holder.view.findViewById(R.id.editTextName)).setEnabled(false);
             ((TextView)holder.view.findViewById(R.id.editTextPrice)).setText(payment.getPay()+"");
-            (holder.view.findViewById(R.id.editTextPrice)).setEnabled(false);
             ((TextView)holder.view.findViewById(R.id.editTextCount)).setText("1");
             (holder.view.findViewById(R.id.editTextCount)).setEnabled(false);
             holder.view.findViewById(R.id.buttonPlus).setOnClickListener(new View.OnClickListener(){

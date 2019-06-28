@@ -8,9 +8,18 @@ public class Payment {
 
     private String Name;
 
-    private String Pay;
+    private double Pay;
 
-    public Payment(int i, String s, String s1) {
+    private int Count;
+
+    private String Article;
+
+    public Payment(int id, String Name, double Pay, int Count, String Article) {
+        this.id = id;
+        this.Name = Name;
+        this.Pay = Pay;
+        this.Count = Count;
+        this.Article = Article;
     }
 
     public int getId(){
@@ -33,13 +42,31 @@ public class Payment {
         this.Name = Name;
     }
 
-    public String getPay(){
+    public double getPay(){
 
         return Pay;
     }
 
-    public void setPay(String Pay){
+    public void setPay(double Pay){
 
         this.Pay = Pay;
+    }
+
+    public int getCount(){
+
+        return Count;
+    }
+
+    public void setCount(int Count){
+
+        this.Count = Count;
+    }
+
+    public String getArticle() {
+        return Article;
+    }
+
+    public void setArticle(String Article) {
+        this.Article = Article;
     }
 }
