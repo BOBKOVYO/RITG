@@ -100,6 +100,9 @@ public class PaymentPresenter implements IToast {
         try {
             IFiscalCore core = getCore();
             for (int i = 0; i < paymentList.size(); i++) {
+                core.SetItemTaxes(5,_callback);
+                core.SetShowTaxes(true,_callback);
+                _callback.Complete();
                 core.PrintRecItem(paymentList.get(i).getCount(), paymentList.get(i).getPay(),
                         paymentList.get(i).getName(), paymentList.get(i).getArticle(), _callback);
                 _callback.Complete();
@@ -175,6 +178,9 @@ public class PaymentPresenter implements IToast {
         try {
             IFiscalCore core = getCore();
             for (int i = 0; i < paymentList.size(); i++) {
+                core.SetItemTaxes(5,_callback);
+                core.SetShowTaxes(true,_callback);
+                _callback.Complete();
                 core.PrintRecItem(paymentList.get(i).getCount(), paymentList.get(i).getPay(),
                         paymentList.get(i).getName(), paymentList.get(i).getArticle(), _callback);
                 _callback.Complete();
@@ -196,6 +202,7 @@ public class PaymentPresenter implements IToast {
 
     public void destroy() {
         dbHelper.close();
+        _connection.Uninitialize();
     }
 
     @Override
