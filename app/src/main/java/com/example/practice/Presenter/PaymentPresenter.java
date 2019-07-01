@@ -33,6 +33,7 @@ public class PaymentPresenter implements IToast {
     private static final String ENVIRONMENT = "";
     private static final String TAG = "PaymentActivity";
     private static final int RECTYPE = 1;
+    private static final int RECTYPE_PAYBACK = 3;
     private static final int PAY_TYPE_CASH = 0;
 
     private FiscalCoreServiceConnection _connection;
@@ -150,7 +151,47 @@ public class PaymentPresenter implements IToast {
     }
 
     public void payBack() {
-
+        try {
+            IFiscalCore core = getCore();
+            core.SetTaxationUsing(1,_callback);
+            _callback.Complete();
+            core.OpenRec(RECTYPE_PAYBACK, _callback);
+            _callback.Complete();
+        } catch (Exception e) {
+            Toast.makeText(view.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        Cursor c = dbHelper.getReadableDatabase().query(PaymentTable.TABLE, null, null, null, null, null, null);
+        List<Payment> paymentList = new ArrayList<>();
+        int idColIndex = c.getColumnIndex(PaymentTable.COLUMN.ID);
+        int nameColIndex = c.getColumnIndex(PaymentTable.COLUMN.NAME);
+        int payColIndex = c.getColumnIndex(PaymentTable.COLUMN.PAY);
+        int countColIndex = c.getColumnIndex(PaymentTable.COLUMN.COUNT);
+        int articleColIndex = c.getColumnIndex(PaymentTable.COLUMN.ARTICLE);
+        while (c.moveToNext()) {
+            paymentList.add(new Payment(c.getInt(idColIndex), c.getString(nameColIndex), c.getString(payColIndex),
+                    c.getString(countColIndex), c.getString(articleColIndex)));
+        }
+        c.close();
+        try {
+            IFiscalCore core = getCore();
+            for (int i = 0; i < paymentList.size(); i++) {
+                core.PrintRecItem(paymentList.get(i).getCount(), paymentList.get(i).getPay(),
+                        paymentList.get(i).getName(), paymentList.get(i).getArticle(), _callback);
+                _callback.Complete();
+            }
+            core.PrintRecTotal(_callback);
+            _callback.Complete();
+            String total = core.GetRecTotal(_callback);
+            _callback.Complete();
+            core.PrintRecItemPay(PAY_TYPE_CASH, total, view.getString(R.string.cash), _callback);
+            _callback.Complete();
+            core.CloseRec(_callback);
+            _callback.Complete();
+        } catch (Exception e) {
+            Toast.makeText(view.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        dbHelper.getWritableDatabase().delete(PaymentTable.TABLE,null,null);
+        view.finish();
     }
 
     public void destroy() {
