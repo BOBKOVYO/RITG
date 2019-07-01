@@ -27,31 +27,24 @@ import java.util.List;
 public class PaymentActivity extends AppCompatActivity {
 
     private EditText editTextName;
-    private EditText editTextPrice;
-    private EditText editTextCount;
     private Button buttonPay;
     private Button buttonAdd;
-    private Button buttonOpen;
+    private Button buttonCancel;
     private RecyclerView recyclerView;
+
     private PaymentPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_payment);
 
         presenter = new PaymentPresenter(this);
         presenter.initialize();
 
-        editTextCount = (EditText) findViewById(R.id.editTextCount);
-        editTextName = (EditText) findViewById(R.id.editTextName);
-        editTextPrice = (EditText) findViewById(R.id.editTextPrice);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new PaymentListAdapter(presenter.getPayments()));
-
-
+        recyclerView.setAdapter(new PaymentListAdapter(presenter.getPaymentList()));
 
         boolean isPayBack = getIntent().getBooleanExtra("IS_PAY_BACK", false);
         buttonPay = (Button) findViewById(R.id.buttonPay);
@@ -60,7 +53,7 @@ public class PaymentActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                     presenter.pay();
+                    presenter.pay();
                 }
             });
         } else {
@@ -78,16 +71,22 @@ public class PaymentActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-            presenter.add();
+                presenter.add();
             }
         });
-        buttonOpen = (Button)findViewById(R.id.buttonOpen);
-        buttonOpen.setOnClickListener(new View.OnClickListener(){
+        buttonCancel = (Button) findViewById(R.id.buttonCancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v){
-                 presenter.open();
+            public void onClick(View v) {
+                presenter.cancel();
             }
         });
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        presenter.destroy();
     }
 }
 

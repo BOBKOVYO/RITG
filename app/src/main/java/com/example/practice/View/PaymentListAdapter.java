@@ -16,7 +16,7 @@ import java.util.List;
 
     public class PaymentListAdapter extends RecyclerView.Adapter<PaymentListAdapter.PaymentListViewHolder> {
 
-        private List<Payment> mpaymentList;
+        public List<Payment> paymentList;
         private PaymentPresenter presenter;
 
         public static class PaymentListViewHolder extends RecyclerView.ViewHolder {
@@ -29,7 +29,7 @@ import java.util.List;
         }
 
         public PaymentListAdapter(List<Payment> paymentList) {
-            mpaymentList = paymentList;
+            this.paymentList = paymentList;
         }
 
         @Override
@@ -42,8 +42,8 @@ import java.util.List;
 
         @Override
         public void onBindViewHolder(PaymentListViewHolder holder, int position) {
-            final PaymentListPresenter presenter=new PaymentListPresenter(holder);
-            final Payment payment = mpaymentList.get(position);
+            final Payment payment = paymentList.get(position);
+            final PaymentListPresenter presenter=new PaymentListPresenter(holder, position);
             ((TextView)holder.view.findViewById(R.id.editTextName)).setText(payment.getName());
             ((TextView)holder.view.findViewById(R.id.editTextPrice)).setText(payment.getPay()+"");
             ((TextView)holder.view.findViewById(R.id.editTextCount)).setText("1");
@@ -64,6 +64,6 @@ import java.util.List;
 
         @Override
         public int getItemCount() {
-            return mpaymentList.size();
+            return paymentList.size();
         }
     }

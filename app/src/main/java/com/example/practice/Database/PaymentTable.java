@@ -8,7 +8,7 @@ public class PaymentTable {
         public static final String NAME = "name";
         public static final String PAY = "pay";
         public static final String COUNT = "count";
-        public static final String ARTICLE = "arcticle";
+        public static final String ARTICLE = "article";
     }
 
     public static final String CREATE_SCRIPT =
